@@ -8,15 +8,38 @@
     "lib",
     "dist"
   ],
+  "koishi": {
+    "browser": true,
+    "public": [
+      "dist"
+    ],
+    "description": {
+      "en": "Load ESM/CJS scripts directly in Koishi WebUI",
+      "zh": "在 Koishi WebUI 里直接加载 ESM/CJS 脚本"
+    }
+  },
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepublishOnly": "npm run build"
+  },
   "keywords": [
     "chatbot",
     "koishi",
     "plugin"
   ],
-  "devDependencies": {},
+  "devDependencies": {
+    "@koishijs/client": "^5.7.6",
+    "@koishijs/plugin-console": "^5.7.6",
+    "@types/node": "^18.16.8",
+    "highlight.js": "^11.11.1",
+    "typescript": "^5.6.3"
+  },
   "peerDependencies": {
-    "koishi": "4.18.11"
+    "@koishijs/plugin-console": "^5.7.7",
+    "koishi": "^4.12.8"
+  },
+  "dependencies": {
+    "uuid": "^9.0.0"
   }
 }
