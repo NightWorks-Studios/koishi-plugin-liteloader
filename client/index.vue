@@ -100,9 +100,15 @@ const currentItem = computed(() => scripts.value.find(item => item.id === curren
 const currentEnabled = computed(() => !!currentItem.value?.enabled)
 const currentError = computed(() => currentItem.value?.lastError || '')
 const checkError = ref('')
+const pageError = ref('')
 const highlightedCode = computed(() => {
-  const result = highlight.highlight(code.value || '', { language: 'javascript', ignoreIllegals: true }).value
-  return result + '\n'
+  try {
+    const result = highlight.highlight(code.value || '', { language: 'javascript', ignoreIllegals: true }).value
+    return result + '\n'
+  } catch (error) {
+    pageError.value = `高亮渲染失败: ${error?.message || String(error)}`
+    return (code.value || '') + '\n'
+  }
 })
 
 function syncHighlightScroll() {
@@ -114,18 +120,26 @@ function syncHighlightScroll() {
 }
 
 watch(scripts, async (value) => {
-  if (!value.length) {
+  if (!Array.isArray(value) || !value.length) {
     currentId.value = null
     return
   }
   if (currentId.value == null || !value.find(item => item.id === currentId.value)) {
-    await selectScript(value[0].id)
+    try {
+      await selectScript(value[0].id)
+    } catch (error) {
+      pageError.value = `加载脚本失败: ${error?.message || String(error)}`
+    }
   }
 }, { immediate: true })
 
 async function createScript() {
-  const id = await send('create-liteloader-script')
-  await selectScript(Number(id))
+  try {
+    const id = await send('create-liteloader-script')
+    await selectScript(Number(id))
+  } catch (error) {
+    pageError.value = `创建脚本失败: ${error?.message || String(error)}`
+  }
 }
 
 async function selectScript(id: number) {
@@ -134,6 +148,7 @@ async function selectScript(id: number) {
   code.value = data.code
   format.value = data.format
   name.value = data.name
+  pageError.value = ''
 }
 
 async function saveScript(reload = true) {
@@ -158,11 +173,15 @@ async function reloadScript() {
 }
 
 async function checkSyntax() {
-  const result = await send('check-liteloader-script', {
-    code: code.value,
-    format: format.value,
-  })
-  checkError.value = result.ok ? '语法检查通过。' : (result.error || '语法检查失败')
+  try {
+    const result = await send('check-liteloader-script', {
+      code: code.value,
+      format: format.value,
+    })
+    checkError.value = result.ok ? '语法检查通过。' : (result.error || '语法检查失败')
+  } catch (error) {
+    checkError.value = `语法检查请求失败: ${error?.message || String(error)}`
+  }
 }
 
 async function toggleState() {
