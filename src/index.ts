@@ -23,7 +23,9 @@ export async function apply(ctx: Context) {
   ctx.using(['console'], (ctx) => {
     ctx.console.addEntry({
       dev: resolve(__dirname, '../client/index.ts'),
-      prod: resolve(__dirname, '../dist'),
+      prod: __dirname.includes('node_modules')
+        ? resolve(__dirname, '../dist')
+        : resolve(ctx.baseDir, 'node_modules/koishi-plugin-liteloader/dist'),
     })
   })
 

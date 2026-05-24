@@ -1,16 +1,10 @@
-import { Context, icons } from '@koishijs/client'
-import Page from './index.vue'
-import Activity from './icons/activity.vue'
-
-icons.register('liteloader', Activity)
+import { Context } from '@koishijs/client'
 
 export default (ctx: Context) => {
   ctx.page({
-    name: 'LiteLoader',
+    name: 'LiteLoader 脚本',
     path: '/liteloader',
-    icon: 'liteloader',
-    authority: 5,
-    component: Page,
-    fields: ['liteloader'],
+    authority: 3,
+    component: () => import('./index.vue'),
   })
 }
