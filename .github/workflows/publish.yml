@@ -31,7 +31,10 @@ jobs:
         run: npm run build
 
       - name: Verify package contents
-        run: npm pack --dry-run
+        run: |
+          test -f dist/index.js
+          test -f dist/style.css
+          npm pack --dry-run
 
       - name: Publish to npm with provenance
         run: npm publish --access public --provenance

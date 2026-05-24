@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-liteloader",
   "description": "直接在Koishi中加载ESM/CJS代码",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "repository": {
@@ -28,7 +28,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "npx -p typescript@5.6.3 tsc -p tsconfig.json && npx koishi-console build client",
+    "build": "npx -p typescript@5.6.3 tsc -p tsconfig.json && npx koishi-console build",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
