@@ -30,5 +30,8 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Verify package contents
+        run: npm pack --dry-run
+
       - name: Publish to npm with provenance
         run: npm publish --access public --provenance
