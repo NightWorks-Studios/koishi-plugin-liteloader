@@ -4,6 +4,14 @@
   "version": "0.0.3",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NightWorks-Studios/koishi-plugin-liteloader.git"
+  },
+  "homepage": "https://github.com/NightWorks-Studios/koishi-plugin-liteloader",
+  "bugs": {
+    "url": "https://github.com/NightWorks-Studios/koishi-plugin-liteloader/issues"
+  },
   "files": [
     "lib",
     "dist"
